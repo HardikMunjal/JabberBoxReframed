@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+  <title>Jabber Box</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
+   <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <style>
+ 
+    li {
+      padding: 1px;
+    }
+    header, footer {
+      padding: 2px;
+      background: #fff;
+      border-radius: 25px;
+      border: 2px solid #000;
+      background: lightblue;
+      height: 26px;
+      text-align:center;
+    }
+ 
+    .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+      color: white;
+      background-color: grey;
+    }
+ 
+    .nav-pills > li.active > a:hover {
+      background-color: white;
+      color:white;
+    }
+ 
+    .hero {
+      background-color: lightgreen;
+    }
+ 
+    textarea
+    {
+      width:100%;
+    }
+ 
+    .navbar-custom {
+      border-radius: 15px;
+      height: 10px;
+      width: 1200px;
+      color: yellow;
+      background-color: lightblue;
+      text-align:center;
+      display: inline-block;
+    }
+ 
+    .wrapper{
+      overflow-y:scroll;
+      position:relative;
+      height: 160px;
+      background-color: lightgrey;
+    }
+ 
+    .wrappergroup{
+ 
+     /* overflow-y:scroll; */
+     position:relative;
+     height: 80px;
+   }
+ 
+ 
+ 
+   .inputMessages {
+     border: 10px solid #000;
+     bottom: 0;
+     height: 40px;
+     outline: none;
+     position: relative;
+     padding-left: 10px;
+     right: 0;
+     width: 100%;
+   }
+ 
+   img {
+    max-width: 100%;
+    max-height: 50%;
+    height:180px;
+}
+</style>
+</head>
+<body>
+  <ul class="pages">
+    <li class="chat page">
+     
+
+      <div class='container'>
+ 
+  <div>
+    <div class='navbar navbar-inverse navbar-custom' style="height:auto;">
+     <h4 class="bg-success">Jabber Box</h4>
+    </div>
+  </div>
+ 
+   <div id='content' class='row-fluid'>
+    <div class='span3 sidebar'>
+ 
+      <div class='hero'>
+        <center><h4> Mr. Bean</h4></center>
+        <img src="/images/bean.jpg" class="img-rounded" alt="Cinque Terre" width="304">
+        <ul class="nav nav-pills nav-stacked red">
+          <li class="active"><a href="#">Home</a></li>
+        </ul>
+ 
+        <div class='wrappergroup'>
+         <header>Group Channel</header>
+         <ul>
+          <li>#Gladiator</li>
+          <li>#Drakulaaz</li>
+         </ul>
+        </div>
+ 
+        <div class='wrapper'>
+          <header>Personal Messaging</header>
+          <ul>
+            <li>Dinesh</li>
+            <li>Avinash</li>
+            <li>Atul</li>
+            <li>Anuj</li>
+            <li>Maurya</li>
+            <li>Rachin</li>
+            <li>Rohit</li>
+            <li>Sachin</li>
+            <li>Varun</li>
+            <li>Deepak</li>
+          </ul>
+        </div>
+      </div>
+     </div>
+   <div class='span9 sidebar'>
+     <div class="chatArea">
+        <ul class="messages"></ul>
+      </div>
+      <input class="inputMessage" placeholder="Type here..."/>
+<!-- 
+   <textarea rows="25" cols="350">
+    --insert message here--
+   </textarea>
+   <input class="inputMsssessage" placeholder="Type here..."/> -->
+   </div>
+  </div>
+</div>
+
+      
+
+
+
+     
+    </li>
+    <li class="login page">
+      <div class="form">
+        <h3 class="title">What's your nickname?</h3>
+        <input class="usernameInputs" type="text" maxlength="14" />
+      </div>
+    </li>
+  </ul>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/main.js"></script>
+</body>
+</html>
+
+
+
+
