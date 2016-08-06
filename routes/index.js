@@ -13,7 +13,7 @@ app.get('/profile', function(req, res, next) {
 
 
 app.get('/page', function(req, res, next) {
-	res.render('index.html');
+	res.render('userdetail.html');
 });
 };
 
