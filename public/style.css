@@ -1,4 +1,80 @@
+ li {
+      padding: 1px;
+    }
+    header, footer {
+      padding: 2px;
+      background: #fff;
+      border-radius: 25px;
+      border: 2px solid #000;
+      background: lightblue;
+      height: 26px;
+      text-align:center;
+    }
+ 
+    .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
+      color: white;
+      background-color: grey;
+    }
+ 
+    .nav-pills > li.active > a:hover {
+      background-color: white;
+      color:white;
+    }
+ 
+    .hero {
+      background-color: lightgreen;
+    }
+ 
+    textarea
+    {
+      width:100%;
+    }
+ 
+    .navbar-custom {
+      border-radius: 15px;
+      height: 10px;
+      width: 1200px;
+      color: yellow;
+      background-color: lightblue;
+      text-align:center;
+      display: inline-block;
+    }
+ 
+    .wrapper{
+      overflow-y:scroll;
+      position:relative;
+      height: 160px;
+      background-color: lightgrey;
+    }
+ 
+    .wrappergroup{
+ 
+     /* overflow-y:scroll; */
+     position:relative;
+     height: 80px;
+   }
+ 
+ 
+ 
+   .inputMessages {
+     border: 10px solid #000;
+     bottom: 0;
+     height: 40px;
+     outline: none;
+     position: relative;
+     padding-left: 10px;
+     right: 0;
+     width: 100%;
+   }
+ 
+   img {
+    max-width: 100%;
+    max-height: 50%;
+    height:180px;
+}
+
 /* Fix user-agent */
+
 
 * {
   box-sizing: border-box;

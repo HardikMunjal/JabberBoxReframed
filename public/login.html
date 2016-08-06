@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myJabberApp">
+<head>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>Jabber Box Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="/scripts/jabberScript.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <style>
+	
+	.login.page {
+	  background-color: #000;
+	}
+
+	.login.page .form {
+	  height: 500px;
+	  margin-top: -100px;
+	  position: absolute;
+
+	  text-align: center;
+	  top: 50%;
+	  width: 100%;
+	}
+	/*
+	.login.page .form .usernameInputs {
+	  background-color: transparent;
+	  border: none;
+	  border-bottom: 2px solid #fff;
+	  outline: none;
+	  padding-bottom: 15px;
+	  text-align: center;
+	  width: 400px;
+	}*/
+
+	.login.page .title {
+	  font-size: 200%;
+	}
+
+	./*login.page .usernameInputs {
+	  font-size: 200%;
+	  letter-spacing: 3px;
+	}*/
+
+	.login.page .title, .login.page .usernameInputs {
+	  color: #fff;
+	  font-weight: 100;
+	}
+   </style>
+
+</head>
+<body ng-controller="jabberCtrl">
+
+	<form>
+	<div class="login page">
+	      <div class="form">
+	        <h3 class="title">What's your nickname?</h3>
+	        <input class="usernameInputs" type="text" ng-model="user.firstName" maxlength="14" />
+	        <hr/>
+	        <br>
+	        <div align="center">
+	        <input type="file" name="file" onchange="angular.element(this).scope().photoChanged(this.files)"/>
+	        </div>
+	      <div align="center" ng-show="showImage" ng-model = "user.myFile">
+		   <img ng-src="{{ thumbnail.dataUrl }}" width="200px" height="200px"/>
+	      </div>
+	    </div>
+	</div>
+	 <button ng-click="reset()">RESET</button>
+	</form>
+
+</body>
+</html>

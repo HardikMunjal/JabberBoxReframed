@@ -10,84 +10,7 @@
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
   <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="style.css">
-  <style>
- 
-    li {
-      padding: 1px;
-    }
-    header, footer {
-      padding: 2px;
-      background: #fff;
-      border-radius: 25px;
-      border: 2px solid #000;
-      background: lightblue;
-      height: 26px;
-      text-align:center;
-    }
- 
-    .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
-      color: white;
-      background-color: grey;
-    }
- 
-    .nav-pills > li.active > a:hover {
-      background-color: white;
-      color:white;
-    }
- 
-    .hero {
-      background-color: lightgreen;
-    }
- 
-    textarea
-    {
-      width:100%;
-    }
- 
-    .navbar-custom {
-      border-radius: 15px;
-      height: 10px;
-      width: 1200px;
-      color: yellow;
-      background-color: lightblue;
-      text-align:center;
-      display: inline-block;
-    }
- 
-    .wrapper{
-      overflow-y:scroll;
-      position:relative;
-      height: 160px;
-      background-color: lightgrey;
-    }
- 
-    .wrappergroup{
- 
-     /* overflow-y:scroll; */
-     position:relative;
-     height: 80px;
-   }
- 
- 
- 
-   .inputMessages {
-     border: 10px solid #000;
-     bottom: 0;
-     height: 40px;
-     outline: none;
-     position: relative;
-     padding-left: 10px;
-     right: 0;
-     width: 100%;
-   }
- 
-   img {
-    max-width: 100%;
-    max-height: 50%;
-    height:180px;
-}
-</style>
+  <link rel="stylesheet" href="/style.css">
 </head>
 <body>
   <ul class="pages">
@@ -115,24 +38,24 @@
         <div class='wrappergroup'>
          <header>Group Channel</header>
          <ul>
-          <li>#Gladiator</li>
-          <li>#Drakulaaz</li>
+          <li><a href="#">#Gladiator</a></li>
+          <li><a href="#">#Drakulaaz</a></li>
          </ul>
         </div>
  
         <div class='wrapper'>
           <header>Personal Messaging</header>
           <ul>
-            <li>Dinesh</li>
-            <li>Avinash</li>
-            <li>Atul</li>
-            <li>Anuj</li>
-            <li>Maurya</li>
-            <li>Rachin</li>
-            <li>Rohit</li>
-            <li>Sachin</li>
-            <li>Varun</li>
-            <li>Deepak</li>
+            <li><a href="#">Dinesh</a></li>
+            <li><a href="#">Avinash</a></li>
+            <li><a href="#">Atul</a></li>
+            <li><a href="#">Anuj</a></li>
+            <li><a href="#">Maurya</a></li>
+            <li><a href="#">Rachin</a></li>
+            <li><a href="#">Rohit</a></li>
+            <li><a href="#">Sachin</a></li>
+            <li><a href="#">Varun</a></li>
+            <li><a href="#">Deepak</a></li>
           </ul>
         </div>
       </div>
@@ -142,21 +65,12 @@
         <ul class="messages"></ul>
       </div>
       <input class="inputMessage" placeholder="Type here..."/>
-<!-- 
-   <textarea rows="25" cols="350">
-    --insert message here--
-   </textarea>
-   <input class="inputMsssessage" placeholder="Type here..."/> -->
    </div>
   </div>
 </div>
 
       
-
-
-
-     
-    </li>
+  </li>
     <li class="login page">
       <div class="form">
         <h3 class="title">What's your nickname?</h3>

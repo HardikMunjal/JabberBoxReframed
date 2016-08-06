@@ -1,4 +1,4 @@
-$(function() {
+﻿$(function() {
   var FADE_TIME = 150; // ms
   var TYPING_TIMER_LENGTH = 400; // ms
   var COLORS = [
@@ -38,7 +38,7 @@ $(function() {
   // Sets the client's username
   function setUsername () {
     username = cleanInput($usernameInput.val().trim());
-
+     
     // If the username is valid
     if (username) {
       $loginPage.fadeOut();
