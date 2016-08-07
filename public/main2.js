@@ -1,11 +1,12 @@
 angular.module('myJabberApp', ['ngFileUpload'])
-.controller('MyCtrl',['Upload','$window',function(Upload,$window){
+.controller('MyCtrl',['$scope','Upload','$window',function($scope,Upload,$window){
     var vm = this;
-    vm.submit = function(){ //function to call on form submit
+    $scope.submit = function(){ //function to call on form submit
         console.log(vm);
-        console.log($scope.up);
-        if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
-            vm.upload(vm.file); //call upload function
+        console.log($scope.upload_form);
+        console.log($scope.user);
+        if ($scope.upload_form.file.$valid && $scope.user.file) { //check if from is valid
+            vm.upload($scope.user.file); //call upload function
         }
     }
     
@@ -26,7 +27,7 @@ angular.module('myJabberApp', ['ngFileUpload'])
             console.log(evt);
             var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             console.log('progress: ' + progressPercentage + '% ' + evt.config.data.file.name);
-            vm.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
+            $scope.progress = 'progress: ' + progressPercentage + '% '; // capture upload progress
         });
     };
 }]);

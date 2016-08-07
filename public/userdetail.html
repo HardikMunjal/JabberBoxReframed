@@ -14,35 +14,35 @@
     
 
 </head>
-	<body>
+	<body ng-controller="MyCtrl">
 		<h1>Register Your Details</h1>
 
     
     <div class="login page" align="center">
-        <form  ng-controller="MyCtrl as up" name="up.upload_form">
+        <form name="upload_form">
 
            <h3 class="title">What's your nickname?</h3>
-            <input class="usernameInputs" type="text" ng-model="up.username" maxlength="24" />
+            <input class="usernameInputs" type="text" ng-model="user.username" maxlength="24" />
             <hr/>
                 
             <input 
                 type="file" 
                 ngf-select 
-                ng-model="up.file" 
+                ng-model="user.file" 
                 name="file" 
                 ngf-pattern="'*'"
                 accept="*" 
                 ngf-max-size="5000MB" 
                 />
-            <img style="width:200px;" ng-show="!!up.file" ngf-thumbnail="up.file || '/images/nopic.jpg'"/>
-            <i ng-show="up.upload_form.file.$error.required">*required</i><br>
-            <i ng-show="up.upload_form.file.$error.maxSize">File too large 
-            {{up.file.size / 1000000|number:1}}MB: max 20M</i>
+            <img style="width:200px;" ng-show="!!user.file" ngf-thumbnail="user.file || '/images/nopic.jpg'"/>
+            <i ng-show="upload_form.file.$error.required">*required</i><br>
+            <i ng-show="upload_form.file.$error.maxSize">File too large 
+            {{user.file.size / 1000000|number:1}}MB: max 20M</i>
            <!--  Multiple files
             <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
             Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
-            <button type="submit" ng-click="up.submit()">submit</button>
-            <p>{{up.progress}}</p>
+            <button type="submit" ng-click="submit()">submit</button>
+            <p>progress:{{progress}}</p>
         </form>
 </div>
 
