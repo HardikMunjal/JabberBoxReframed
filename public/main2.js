@@ -1,7 +1,9 @@
-angular.module('fileUpload', ['ngFileUpload'])
+angular.module('myJabberApp', ['ngFileUpload'])
 .controller('MyCtrl',['Upload','$window',function(Upload,$window){
     var vm = this;
     vm.submit = function(){ //function to call on form submit
+        console.log(vm);
+        console.log($scope.up);
         if (vm.upload_form.file.$valid && vm.file) { //check if from is valid
             vm.upload(vm.file); //call upload function
         }
