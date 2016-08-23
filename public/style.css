@@ -165,7 +165,7 @@ ul {
 /* Chat page */
 
 .chat.page {
-  display: none;
+ /* display: none;*/
 }
 
 /* Font */
@@ -174,10 +174,10 @@ ul {
   font-size: 150%;
 }
 
-.inputMessage {
+/*.inputMessage {
   font-size: 100%;
 }
-
+*/
 .log {
   color: gray;
   font-size: 70%;

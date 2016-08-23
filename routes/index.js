@@ -1,9 +1,46 @@
 module.exports = function (app) {
 
 
-
+//this route will open the chat profile page if username exist in the session else it will open the login page
 app.get('/', function(req, res, next) {
+	res.render('views/jabber.html');
+});
+
+
+//this route will check the user credential details from database (with roles) and add some user details to node session
+app.get('/login', function(req, res, next) {
 	res.render('login.html');
+});
+
+
+app.get('/register', function(req, res, next) {
+	res.render('views/register.html');
+});
+
+
+//this will register the details and add some user details to node session
+app.post('/registerApi', function(req, res, next) {
+	res.render('register.html');
+});
+
+
+//this will delete the user details from node session
+app.get('/logoutApi', function(req, res, next) {
+	res.render('register.html');
+});
+
+
+//this will give the user details and their repective rolesssss
+//by default user own details is passed
+//but if in parameter user_id is passed, then details of that user_id will be passed
+app.get('/userDetailApi', function(req, res, next) {
+	res.render('register.html');
+});
+
+
+//this will give the details of all users of same organisation
+app.get('/allUserDetailApi', function(req, res, next) {
+	res.render('register.html');
 });
 
 

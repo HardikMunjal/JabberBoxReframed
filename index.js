@@ -1,3 +1,4 @@
+//https://gist.github.com/dskanth/2634239
 // Setup basic express server
 var express = require('express');
 var app = express();
@@ -9,38 +10,53 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
+// app.use(bodyParser.urlencoded({
+//     extended: true
+// }));
 
+/**bodyParser.json(options)
+ * Parses the text as JSON and exposes the resulting object on req.body.
+ */
+// app.use(bodyParser.json());
 
+var upload = multer({ dest: './upload/' });
 
+app.post('/upload', upload.single('file'), function (req, res, next) {
+   console.log(req.body);
+        console.log(req.file);
+})
 app.use(router);
 require('./routes')(router);
 
-app.use(bodyParser.json());  
 
-var storage = multer.diskStorage({ //multers disk storage settings
-        destination: function (req, file, cb) {
-            cb(null, './upload/');
-        },
-        filename: function (req, file, cb) {
-            var datetimestamp = Date.now();
-            cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-        }
-});
 
-var upload = multer({ //multer settings
-                    storage: storage
-             }).single('file');
+// var storage = multer.diskStorage({ //multers disk storage settings
+//         destination: function (req, file, cb) {
+//             cb(null, './upload/');
+//         },
+//         filename: function (req, file, cb) {
+//             var datetimestamp = Date.now();
+//             cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
+//         }
+// });
+
+// var upload = multer({ //multer settings
+//                     storage: storage
+//              }).single('file');
 
 /** API path that will upload the files */
-app.post('/upload', function(req, res) {
-        upload(req,res,function(err){
-            if(err){
-                 res.json({error_code:1,err_desc:err});
-                 return;
-            }
-             res.json({error_code:0,err_desc:null});
-      });
-});
+// app.post('/upload', function(req, res) {
+
+//        console.log(req.body);
+//        console.log(req.file);
+//         upload(req,res,function(err){
+//             if(err){
+//                  res.json({error_code:1,err_desc:err});
+//                  return;
+//             }
+//              res.json({error_code:0,err_desc:null});
+//       });
+// });
 
 server.listen(port, function () {
   console.log('Server listening at port %d', port);
@@ -62,7 +78,11 @@ io.on('connection', function (socket) {
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
+    //var clients = io.sockets.clients();
+    //console.log('haha',clients.server.nsps);
+    //console.log(socket.username);
     // we tell the client to execute 'new message'
+    console.log(data);
     socket.broadcast.emit('new message', {
       username: socket.username,
       message: data

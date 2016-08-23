@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myJabberApp">
+<head>
+    <meta charset="utf-8">
+    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+    <title>Jabber Box Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.2.25/angular.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    
+
+</head>
+	<body ng-controller="MyCtrl">
+		<h1>Register Your Details</h1>
+
+    
+    <div class="login page" align="center">
+        <form name="upload_form">
+
+           <h3 class="title">What's your nickname?</h3>
+            <input class="usernameInputs" type="text" ng-model="user.username" maxlength="24" />
+            <input class="usernameInputs" type="email" ng-model="user.email" maxlength="24" />
+            <input class="usernameInputs" type="password" ng-model="user.password" maxlength="24" />
+            <hr/>
+                
+            <input 
+                type="file" 
+                ngf-select 
+                ng-model="user.file" 
+                name="file" 
+                ngf-pattern="'*'"
+                accept="*" 
+                ngf-max-size="5000MB" 
+                />
+            <img style="width:200px;" ng-show="!!user.file" ngf-thumbnail="user.file || '/images/nopic.jpg'"/>
+            <i ng-show="upload_form.file.$error.required">*required</i><br>
+            <i ng-show="upload_form.file.$error.maxSize">File too large 
+            {{user.file.size / 1000000|number:1}}MB: max 20M</i>
+           <!--  Multiple files
+            <div class="button" ngf-select ng-model="up.files" ngf-multiple="true">Select</div>
+            Drop files: <div ngf-drop ng-model="up.files" class="drop-box">Drop</div> -->
+            <button type="submit" ng-click="submit()">submit</button>
+            <p>progress:{{progress}}</p>
+        </form>
+</div>
+
+	</body>
+	<script type="text/javascript" src="/angular/angular.min.js"></script>
+	<script type="text/javascript" src="/ng-file-upload/dist/ng-file-upload.min.js"></script>
+	<script type="text/javascript" src="/ng-file-upload/dist/ng-file-upload-shim.min.js"></script>
+	 <script src="/scripts/jabberScript.js"></script>
+</html>
