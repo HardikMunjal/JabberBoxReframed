@@ -115,8 +115,8 @@ diamonds rihana
 2:  focus on input on page open                 DONE
 3:  send request for socket connection          DONE    
 4:  create socket and test from servr.socket open or not
-    add some records in database
-    create tables in database
+    add some records in database                DONE
+    create tables in database                   DONE 
     get self detail api with groups joined by him
     create group api
     add members in group api

@@ -1,4 +1,4 @@
- li {
+li {
       padding: 1px;
     }
     header, footer {
@@ -10,26 +10,21 @@
       height: 26px;
       text-align:center;
     }
- 
     .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
       color: white;
       background-color: grey;
     }
- 
     .nav-pills > li.active > a:hover {
       background-color: white;
       color:white;
     }
- 
     .hero {
       background-color: lightgreen;
     }
- 
     textarea
     {
       width:100%;
     }
- 
     .navbar-custom {
       border-radius: 15px;
       height: 10px;
@@ -39,24 +34,20 @@
       text-align:center;
       display: inline-block;
     }
- 
     .wrapper{
       overflow-y:scroll;
       position:relative;
       height: 160px;
       background-color: lightgrey;
     }
- 
     .wrappergroup{
- 
-     /* overflow-y:scroll; */
+      overflow-y:scroll;
      position:relative;
      height: 80px;
    }
  
  
- 
-   .inputMessages {
+ /*  .inputMessages {
      border: 10px solid #000;
      bottom: 0;
      height: 40px;
@@ -65,26 +56,25 @@
      padding-left: 10px;
      right: 0;
      width: 100%;
-   }
- 
+   }*/
    img {
     max-width: 100%;
     max-height: 50%;
     height:180px;
 }
-
+ 
 /* Fix user-agent */
-
-
+ 
+ 
 * {
   box-sizing: border-box;
 }
-
+ 
 html {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }
-
+ 
 html, input {
   font-family:
     "HelveticaNeue-Light",
@@ -95,48 +85,48 @@ html, input {
     "Lucida Grande",
     sans-serif;
 }
-
+ 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
-
+ 
 ul {
   list-style: none;
   word-wrap: break-word;
 }
-
+ 
 /* Pages */
-
+ 
 .pages {
   height: 100%;
   margin: 0;
   padding: 0;
   width: 100%;
 }
-
+ 
 .page {
   height: 100%;
   position: absolute;
   width: 100%;
 }
-
+ 
 /* Login Page */
-
-.login.page {
+ 
+/*.login.page {
   background-color: #000;
 }
-
+ 
 .login.page .form {
   height: 500px;
   margin-top: -100px;
   position: absolute;
-
+ 
   text-align: center;
   top: 50%;
   width: 100%;
-}
+}*/
 /*
 .login.page .form .usernameInputs {
   background-color: transparent;
@@ -147,73 +137,73 @@ ul {
   text-align: center;
   width: 400px;
 }*/
-
-.login.page .title {
+ 
+/*.login.page .title {
   font-size: 200%;
 }
-
-./*login.page .usernameInputs {
+ 
+.login.page .usernameInputs {
   font-size: 200%;
   letter-spacing: 3px;
-}*/
-
+}
+ 
 .login.page .title, .login.page .usernameInputs {
   color: #fff;
   font-weight: 100;
-}
-
+}*/
+ 
 /* Chat page */
-
-.chat.page {
- /* display: none;*/
-}
-
+ 
+/*.chat.page {
+  display: none;
+}*/
+ 
 /* Font */
-
+ 
 .messages {
   font-size: 150%;
 }
-
-/*.inputMessage {
+ 
+.inputMessage {
   font-size: 100%;
 }
-*/
+ 
 .log {
   color: gray;
   font-size: 70%;
   margin: 5px;
   text-align: center;
 }
-
+ 
 /* Messages */
-
+ 
 .chatArea {
   height: 520px;
   padding-bottom: 60px;
 }
-
+ 
 .messages {
   height: 100%;
   margin: 0;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
 }
-
+ 
 .message.typing .messageBody {
   color: gray;
 }
-
+ 
 .username {
   font-weight: 700;
   overflow: hidden;
   padding-right: 15px;
   text-align: right;
 }
-
+ 
 /* Input */
-
-.inputMessage {
-   border: 10px solid #000;
+ 
+#inputMessage {
+   border: 5px solid #000;
      bottom: 0;
      height: 40px;
      outline: none;

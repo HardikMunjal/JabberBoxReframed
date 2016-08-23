@@ -1,15 +1,28 @@
-var app = angular.module('myJabberProfileApp',  []);
+var app = angular.module('myJabberProfileApp',   ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
  
-app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout) {
+app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log) {
  
-// var FADE_TIME = 150; // ms
-// var TYPING_TIMER_LENGTH = 400; // ms
-// var COLORS = [
-//     '#e21400', '#91580f', '#f8a700', '#f78b00',
-//     '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
-//     '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
-// ];
-// $scope.test="true";
+var FADE_TIME = 150; // ms
+var TYPING_TIMER_LENGTH = 400; // ms
+var COLORS = [
+    '#e21400', '#91580f', '#f8a700', '#f78b00',
+    '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
+    '#3b88eb', '#3824aa', '#a700ff', '#d300e7'
+];
+$scope.test="true";
+ 
+ 
+var $ctrl = this;
+  $ctrl.items = ['item1', 'item2', 'item3'];
+ 
+  $ctrl.animationsEnabled = true;
+ 
+ 
+ 
+// dummy personal details and friendsDetails which should i take from api
+$scope.myDetails = {user_id:"01", username:"hardi", role:["admin"], email:"hardik.munjal@gmail.com", group:[{id:1,name:'Gladiator'},{id:2,name:'Drakulaaz'}]}
+$scope.friendDetails = [{user_id:"01", username:"riddhi", email:"riddhi.basnal@gmail.com"},{user_id:"03", username:"avinash", email:"avinash.bansal@gmail.com"},{user_id:"02", username:"shivi", email:"shivika.bhandari@gmail.com"},{user_id:"04", username:"lovy", email:"lovy.basnal@gmail.com"}]
+$scope.my_id = $scope.myDetails.user_id;
  
 var username;
 var connected = true;
@@ -18,15 +31,44 @@ var lastTypingTime;
 $scope.chatMessagesArray =[];
 $scope.chatMsg = {};
  
-//username = localStorage.getItem('usernameObject');
-username= 'hardi';
+username = localStorage.getItem('usernameObject');
  
 document.getElementById("inputMessage").focus();
  
  
 var socket = io();
-
  
+$scope.open = function(){
+  console.log('bc');
+   var modalInstance = $uibModal.open({
+      animation: $ctrl.animationsEnabled,
+      ariaLabelledBy: 'modal-title',
+      ariaDescribedBy: 'modal-body',
+      templateUrl: 'myModalContent.html',
+      controller: 'ModalInstanceCtrl',
+      controllerAs: '$ctrl',
+      resolve: {
+        items: function () {
+          return $ctrl.items;
+        }
+      }
+    });
+ 
+    modalInstance.result.then(function (selectedItem) {
+      $ctrl.selected = selectedItem;
+    }, function () {
+      $log.info('Modal dismissed at: ' + new Date());
+    });
+}
+ 
+$scope.fetchPersonalChat = function(user_id){
+console.log('friend_id',user_id);
+
+$http.get("localhost:4000/fetchChat?my_id="+$scope.my_id+"&user_id="+user_id)
+    .then(function(response) {
+        $scope.myWelcome = response.data;
+    });
+ }
  
 function addParticipantsMessage (data) {
     var message = '';
@@ -65,7 +107,6 @@ function setUsername () {
  
 // Sends a chat message
   function sendMessage () {
-
     //var message = $inputMessage.val();
     console.log('input message',$scope.inputMsg);
     //var message ="bhai";
@@ -95,7 +136,7 @@ function setUsername () {
  
     //chatMsg.from = data.username;
     $scope.chatMessagesArray.push(data);
-   console.log('data coming from server');
+    console.log('data coming from server');
     console.log(data);
   }
  
@@ -114,14 +155,13 @@ $scope.fn = function (event) {
     //console.log(event);
     console.log(event.keyCode);
     $scope.keyCode = event.keyCode;
-    
+    // debugger;
     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
      // $currentInput.focus();
      document.getElementById("inputMessage").focus();
     }
     // When the client hits ENTER on their keyboard
     if (event.keyCode === 13) {
-      debugger;
       if (username) {
         sendMessage();
         socket.emit('stop typing');
@@ -168,4 +208,21 @@ $scope.fn = function (event) {
 });
  
  
+ 
+ 
+app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
+  var $ctrl = this;
+  $ctrl.items = items;
+  $ctrl.selected = {
+    item: $ctrl.items[0]
+  };
+ 
+  $ctrl.ok = function () {
+    $uibModalInstance.close($ctrl.selected.item);
+  };
+ 
+  $ctrl.cancel = function () {
+    $uibModalInstance.dismiss('cancel');
+  };
+});
  
