@@ -20,10 +20,11 @@ var $ctrl = this;
  
  
 // dummy personal details and friendsDetails which should i take from api
-$scope.myDetails = {user_id:"01", username:"hardi", role:["admin"], email:"hardik.munjal@gmail.com", group:[{id:1,name:'Gladiator'},{id:2,name:'Drakulaaz'}]}
-$scope.friendDetails = [{user_id:"01", username:"riddhi", email:"riddhi.basnal@gmail.com"},{user_id:"03", username:"avinash", email:"avinash.bansal@gmail.com"},{user_id:"02", username:"shivi", email:"shivika.bhandari@gmail.com"},{user_id:"04", username:"lovy", email:"lovy.basnal@gmail.com"}]
-$scope.my_id = $scope.myDetails.user_id;
- 
+//$scope.myDetails = {user_id:01, username:"hardi", role:["admin"], email:"hardik.munjal@gmail.com", group:[{id:1,name:'Gladiator'},{id:2,name:'Drakulaaz'}]}
+//$scope.friendDetails = [{user_id:"2", username:"riddhi", email:"riddhi.basnal@gmail.com"},{user_id:03, username:"avinash", email:"avinash.bansal@gmail.com"},{user_id:"02", username:"shivi", email:"shivika.bhandari@gmail.com"},{user_id:"04", username:"lovy", email:"lovy.basnal@gmail.com"}]
+// $scope.my_id = $scope.myDetails.user_id;
+$scope.friend_id = null;
+
 var username;
 var connected = true;
 var typing = false;
@@ -31,15 +32,41 @@ var lastTypingTime;
 $scope.chatMessagesArray =[];
 $scope.chatMsg = {};
  
-username = localStorage.getItem('usernameObject');
- 
+username = localStorage.getItem('username');
+//username = 'hardi'; 
 document.getElementById("inputMessage").focus();
+ 
+
+$http({
+        method : "GET",
+        url : "userDetailApi",
+        params: {username: username}
+    }).then(function mySucces(response) {
+        $scope.myDetails = response.data;
+        $scope.my_id = $scope.myDetails.user_id;
+    }, function myError(response) {
+        $scope.myWelcome = response.statusText;
+    });
+
+$http({
+        method : "GET",
+        url : "allFriendsDetailsApi",
+        params: {username: username}
+    }).then(function mySucces(response) {
+        $scope.friendDetails = response.data;
+    }, function myError(response) {
+        $scope.myWelcome = response.statusText;
+    });
+
+
  
  
 var socket = io();
+
+loginUserToSocket();
  
 $scope.open = function(){
-  console.log('bc');
+  //console.log('bc');
    var modalInstance = $uibModal.open({
       animation: $ctrl.animationsEnabled,
       ariaLabelledBy: 'modal-title',
@@ -61,12 +88,30 @@ $scope.open = function(){
     });
 }
  
-$scope.fetchPersonalChat = function(user_id){
-console.log('friend_id',user_id);
+$scope.fetchPersonalChat = function(friend_id,friend_name){
+  //console.log('friend_id',friend_id);
+  $scope.friend_id = friend_id;
+  $scope.friend_name = friend_name;
+  $scope.chatMessagesArray =[];
 
-$http.get("localhost:4000/fetchChat?my_id="+$scope.my_id+"&user_id="+user_id)
-    .then(function(response) {
+  $http({
+        method : "GET",
+        url : "fetchPersonalChatsApi",
+        params: { user_id: $scope.my_id,
+                  friend_id: $scope.friend_id }
+    }).then(function mySucces(response) {
         $scope.myWelcome = response.data;
+         
+         for(i=0;i<response.data.length;i++){
+           addChatMessage({
+            username: response.data[i].from_username,
+            message: response.data[i].message
+         });
+         }
+         
+
+    }, function myError(response) {
+        $scope.myWelcome = response.statusText;
     });
  }
  
@@ -88,18 +133,12 @@ function addParticipantsMessage (data) {
     // log.push(message);
   }
  
-function setUsername () {
-    //username = cleanInput($usernameInput.val().trim());
-    username = localStorage.getItem('usernameObject');
-    console.log(username);
+function loginUserToSocket () {
     
-    // If the username is valid
+    //username = localStorage.getItem('usernameObject');
+   
     if (username) {
-      //$loginPage.fadeOut();
-      // $chatPage.show();
-      //  $loginPage.off('click');
-      //$currentInput = $inputMessage.focus();
- 
+     
       // Tell the server your username
       socket.emit('add user', username);
     }
@@ -108,7 +147,7 @@ function setUsername () {
 // Sends a chat message
   function sendMessage () {
     //var message = $inputMessage.val();
-    console.log('input message',$scope.inputMsg);
+    //console.log('input message',$scope.inputMsg);
     //var message ="bhai";
     // Prevent markup from being injected into the message
    // message = cleanInput(message);
@@ -121,12 +160,18 @@ function setUsername () {
         message: $scope.inputMsg
       });
       // tell server to execute 'new message' and send along one parameter
-      socket.emit('new message', $scope.inputMsg);
+      $scope.inputChatMessage={};
+      $scope.inputChatMessage.from_user=$scope.my_id;
+      $scope.inputChatMessage.to_user=$scope.friend_id;
+      $scope.inputChatMessage.friend_name=$scope.friend_name;
+      $scope.inputChatMessage.message=$scope.inputMsg;
+      socket.emit('new message', $scope.inputChatMessage);
     }
   }
  
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
+    console.log('data coming from server',data);
     addChatMessage(data);
   });
  
@@ -136,8 +181,15 @@ function setUsername () {
  
     //chatMsg.from = data.username;
     $scope.chatMessagesArray.push(data);
-    console.log('data coming from server');
-    console.log(data);
+    if(!$scope.$$phase) {
+     //$digest or $apply
+     $scope.$apply(function() {
+      //$scope.chatMessagesArray = $scope.chatMessagesArray;
+     });
+     }
+    
+    //console.log('data coming from server');
+    //console.log(data);
   }
  
 // <input ng-keydown=fn($event)><br>
@@ -153,7 +205,7 @@ function setUsername () {
 //this would be the main function which will execute on some keyboard event
 $scope.fn = function (event) {
     //console.log(event);
-    console.log(event.keyCode);
+    //console.log(event.keyCode);
     $scope.keyCode = event.keyCode;
     // debugger;
     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
@@ -166,9 +218,7 @@ $scope.fn = function (event) {
         sendMessage();
         socket.emit('stop typing');
         typing = false;
-      } else {
-        setUsername();
-      }
+      } 
     }
 }
  
@@ -210,7 +260,7 @@ $scope.fn = function (event) {
  
  
  
-app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
+app.controller('ModalInstanceCtrl', function ($uibModalInstance, items ,$scope) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = {
@@ -218,6 +268,8 @@ app.controller('ModalInstanceCtrl', function ($uibModalInstance, items) {
   };
  
   $ctrl.ok = function () {
+
+    console.log($scope.firstname);
     $uibModalInstance.close($ctrl.selected.item);
   };
  

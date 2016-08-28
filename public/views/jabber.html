@@ -46,8 +46,8 @@
        
  
          <ul>
-          <li ng-repeat="x in myDetails.group">
-           <a ng-click="ShowGraph()">#{{ x.name }}</a>
+          <li ng-repeat="x in myDetails.groups">
+           <a ng-click="ShowGraph()">#{{ x.grp_name }}</a>
           </li>
  
          </ul>
@@ -57,7 +57,7 @@
           <div class='wrapper'>
           <ul>
             <li ng-repeat="x in friendDetails">
-             <a ng-click="fetchPersonalChat(x.user_id)">$ {{ x.username }}</a>
+             <a ng-click="fetchPersonalChat(x.user_id,x.username)">$ {{ x.username }}</a>
             </li>
           </ul>
         </div>
@@ -93,12 +93,30 @@
             <h3 class="modal-title" id="modal-title">Create New Group</h3>
         </div>
         <div class="modal-body" id="modal-body">
-            <ul>
-                <li ng-repeat="item in $ctrl.items">
-                    <a href="#" ng-click="$event.preventDefault(); $ctrl.selected.item = item">{{ item }}</a>
-                </li>
-            </ul>
-            Selected: <b>{{ $ctrl.selected.item }}</b>
+        Group Name: <input type="text" ng-model="firstname"></br>
+        Group Type:
+        <input type="radio" ng-model="myVar" value="closed">Closed
+        <input type="radio" ng-model="myVar" value="open">Open
+</form>
+
+<div ng-switch="myVar">
+  <div ng-switch-when="open">
+     <h1>Open Group</h1>
+     <p>In Open Group,Any Member can join this group channel</p>
+  </div>
+  <div ng-switch-when="closed">
+     <h1>Closed Group</h1>
+     <p>In Closed Group,Only those Member can see messages which are added by you</p>
+  </div>
+</div>
+
+Select a topic:
+<select ng-model="myVar">
+    <option value="">
+    <option value="dogs">Dogs
+    <option value="tuts">Tutorials
+    <option value="cars">Cars
+</select>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Ok</button>

@@ -10,6 +10,8 @@ var server = require('http').createServer(app);
 var io = require('socket.io')(server);
 var port = process.env.PORT || 3000;
 
+var chatStorageModel = require('./model/chatStorage');
+
 // app.use(bodyParser.urlencoded({
 //     extended: true
 // }));
@@ -72,6 +74,7 @@ app.set('view engine', 'html');
 // Chatroom
 
 var numUsers = 0;
+var users={};
 
 io.on('connection', function (socket) {
   var addedUser = false;
@@ -82,11 +85,25 @@ io.on('connection', function (socket) {
     //console.log('haha',clients.server.nsps);
     //console.log(socket.username);
     // we tell the client to execute 'new message'
-    console.log(data);
-    socket.broadcast.emit('new message', {
+    //console.log(data);
+    
+    chatStorageModel.savePersonalChatUser(data, function(err, result) {
+
+    if (err) {
+      return next(err);
+    }
+    console.log('success');
+    console.log('socket',socket.username);
+  });
+ 
+    users[data.friend_name].emit('new message', {
       username: socket.username,
-      message: data
+      message: data.message
     });
+    // socket.broadcast.emit('new message', {
+    //   username: socket.username,
+    //   message: data.message
+    // });
   });
 
   // when the client emits 'add user', this listens and executes
@@ -95,6 +112,8 @@ io.on('connection', function (socket) {
 
     // we store the username in the socket session for this client
     socket.username = username;
+
+    users[socket.username]=socket;
     ++numUsers;
     addedUser = true;
     socket.emit('login', {
