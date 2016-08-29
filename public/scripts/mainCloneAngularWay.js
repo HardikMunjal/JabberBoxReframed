@@ -1,6 +1,22 @@
 var app = angular.module('myJabberProfileApp',   ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
+
+app.factory('Data', function () {
+
+    var data = {
+        FriendDetails: []
+    };
+
+    return {
+        getFriendDetails: function () {
+            return data.FriendDetails;
+        },
+        setFriendDetails: function (FriendDetails) {
+            data.FriendDetails = FriendDetails;
+        }
+    };
+});
  
-app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log) {
+app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log ,$rootScope,Data) {
  
 var FADE_TIME = 150; // ms
 var TYPING_TIMER_LENGTH = 400; // ms
@@ -58,7 +74,14 @@ $http({
         $scope.myWelcome = response.statusText;
     });
 
+    $scope.FriendDetails= $scope.friendDetails;
 
+    $scope.$watch('$scope.FriendDetails', function (newValue, oldValue) {
+        if (newValue !== oldValue) Data.setFriendDetails(newValue);
+    });
+
+$rootScope.$broadcast('SOME_TAG', $scope.friendDetails);
+$scope.$broadcast('parent', 'Some data'); // going down!
  
  
 var socket = io();
@@ -260,14 +283,39 @@ $scope.fn = function (event) {
  
  
  
-app.controller('ModalInstanceCtrl', function ($uibModalInstance, items ,$scope) {
+app.controller('ModalInstanceCtrl', function ($uibModalInstance, items ,$scope ,$http,Data) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = {
     item: $ctrl.items[0]
   };
  
+
+  // $http({
+  //   url: user.update_path, 
+  //   method: "POST",
+  //   data: {user_id: user.id, draft: true}
+  //  });
   $ctrl.ok = function () {
+
+    $scope.$watch(function () { 
+
+      console.log(Data.getFriendDetails);
+      return Data.getFriendDetails(); 
+    }, function (newValue, oldValue) {
+        if (newValue !== oldValue) $scope.$scope.FriendDetails = newValue;
+    });
+    console.log($scope.FriendDetails);
+
+  $scope.$on('SOME_TAG', function(response) {
+      $scope.aagya =response;
+      console.log(response);
+  })
+   
+
+$scope.$on('parent', function (event, data) {
+    console.log(data); // 'Some data'
+  });
 
     console.log($scope.firstname);
     $uibModalInstance.close($ctrl.selected.item);

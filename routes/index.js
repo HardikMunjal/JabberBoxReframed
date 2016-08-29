@@ -48,6 +48,8 @@ app.get('/allFriendsDetailsApi', userInfo.getAllFriendsDetails);
 
 app.get('/fetchPersonalChatsApi', chatInfo.fetchPersonalChat);
 
+app.post('/createGroupApi', userInfo.createGroup);
+
 
 app.get('/profile', function(req, res, next) {
 	res.render('index.html');
