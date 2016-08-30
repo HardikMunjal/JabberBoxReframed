@@ -1,23 +1,6 @@
 var app = angular.module('myJabberProfileApp',   ['ngAnimate', 'ngSanitize', 'ui.bootstrap']);
-
-app.factory('Data', function () {
-
-    var data = {
-        FriendDetails: []
-    };
-
-    return {
-        getFriendDetails: function () {
-            return data.FriendDetails;
-        },
-        setFriendDetails: function (FriendDetails) {
-            data.FriendDetails = FriendDetails;
-        }
-    };
-});
  
-app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log ,$rootScope,Data) {
- 
+app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log ,$rootScope) {
 var FADE_TIME = 150; // ms
 var TYPING_TIMER_LENGTH = 400; // ms
 var COLORS = [
@@ -27,32 +10,29 @@ var COLORS = [
 ];
 $scope.test="true";
  
- 
-var $ctrl = this;
-  $ctrl.items = ['item1', 'item2', 'item3'];
- 
-  $ctrl.animationsEnabled = true;
- 
- 
- 
 // dummy personal details and friendsDetails which should i take from api
-//$scope.myDetails = {user_id:01, username:"hardi", role:["admin"], email:"hardik.munjal@gmail.com", group:[{id:1,name:'Gladiator'},{id:2,name:'Drakulaaz'}]}
-//$scope.friendDetails = [{user_id:"2", username:"riddhi", email:"riddhi.basnal@gmail.com"},{user_id:03, username:"avinash", email:"avinash.bansal@gmail.com"},{user_id:"02", username:"shivi", email:"shivika.bhandari@gmail.com"},{user_id:"04", username:"lovy", email:"lovy.basnal@gmail.com"}]
+// $scope.myDetails = {user_id:01, username:"hardi", role:["admin"], email:"hardik.munjal@gmail.com", group:[{id:1,name:'Gladiator'},{id:2,name:'Drakulaaz'}]}
+// $scope.friendDetails = [{user_id:"2", username:"riddhi", email:"riddhi.basnal@gmail.com"},{user_id:03, username:"avinash", email:"avinash.bansal@gmail.com"},{user_id:"02", username:"shivi", email:"shivika.bhandari@gmail.com"},{user_id:"04", username:"lovy", email:"lovy.basnal@gmail.com"}]
 // $scope.my_id = $scope.myDetails.user_id;
 $scope.friend_id = null;
-
+ 
+ 
+var $ctrl = this;
+$ctrl.items = ['item1', 'item2', 'item3'];
+$ctrl.animationsEnabled = true;
+//$ctrl.friends = $scope.friendDetails;
 var username;
 var connected = true;
 var typing = false;
 var lastTypingTime;
 $scope.chatMessagesArray =[];
 $scope.chatMsg = {};
- 
+$scope.chatHeaderMessage="Welcome to jabber box,Now enjoy chat with jabber";
 username = localStorage.getItem('username');
-//username = 'hardi'; 
-document.getElementById("inputMessage").focus();
+//username = 'hardi';
  
-
+document.getElementById("inputMessage").disabled = true;
+ 
 $http({
         method : "GET",
         url : "userDetailApi",
@@ -63,7 +43,7 @@ $http({
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
-
+ 
 $http({
         method : "GET",
         url : "allFriendsDetailsApi",
@@ -73,21 +53,11 @@ $http({
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
-
-    $scope.FriendDetails= $scope.friendDetails;
-
-    $scope.$watch('$scope.FriendDetails', function (newValue, oldValue) {
-        if (newValue !== oldValue) Data.setFriendDetails(newValue);
-    });
-
-$rootScope.$broadcast('SOME_TAG', $scope.friendDetails);
-$scope.$broadcast('parent', 'Some data'); // going down!
  
- 
+$scope.FriendDetails= $scope.friendDetails;
 var socket = io();
-
-loginUserToSocket();
  
+loginUserToSocket();
 $scope.open = function(){
   //console.log('bc');
    var modalInstance = $uibModal.open({
@@ -100,23 +70,30 @@ $scope.open = function(){
       resolve: {
         items: function () {
           return $ctrl.items;
+        },
+        friends :function () {
+          return $scope.friendDetails;
+        },
+        user_id :function () {
+          return $scope.my_id ;
         }
       }
     });
- 
     modalInstance.result.then(function (selectedItem) {
       $ctrl.selected = selectedItem;
     }, function () {
       $log.info('Modal dismissed at: ' + new Date());
     });
 }
- 
 $scope.fetchPersonalChat = function(friend_id,friend_name){
   //console.log('friend_id',friend_id);
+  document.getElementById("inputMessage").disabled = false;
+  document.getElementById("inputMessage").focus();
   $scope.friend_id = friend_id;
   $scope.friend_name = friend_name;
   $scope.chatMessagesArray =[];
-
+  $scope.chatHeaderMessage="Displaying chat between you and "+$scope.friend_name;
+ 
   $http({
         method : "GET",
         url : "fetchPersonalChatsApi",
@@ -124,20 +101,19 @@ $scope.fetchPersonalChat = function(friend_id,friend_name){
                   friend_id: $scope.friend_id }
     }).then(function mySucces(response) {
         $scope.myWelcome = response.data;
-         
+        
          for(i=0;i<response.data.length;i++){
            addChatMessage({
             username: response.data[i].from_username,
             message: response.data[i].message
          });
          }
-         
-
+        
+ 
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
- }
- 
+}
 function addParticipantsMessage (data) {
     var message = '';
     if (data.numUsers === 1) {
@@ -147,7 +123,6 @@ function addParticipantsMessage (data) {
     }
     log(message);
   }
- 
   // Log a message
   function log (message, options) {
     //var $el = $('<li>').addClass('log').text(message);
@@ -155,18 +130,16 @@ function addParticipantsMessage (data) {
     // var log=[];
     // log.push(message);
   }
- 
 function loginUserToSocket () {
-    
-    //username = localStorage.getItem('usernameObject');
    
+    //username = localStorage.getItem('usernameObject');
+  
     if (username) {
-     
+    
       // Tell the server your username
       socket.emit('add user', username);
     }
   }
- 
 // Sends a chat message
   function sendMessage () {
     //var message = $inputMessage.val();
@@ -191,17 +164,14 @@ function loginUserToSocket () {
       socket.emit('new message', $scope.inputChatMessage);
     }
   }
- 
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     console.log('data coming from server',data);
     addChatMessage(data);
   });
  
- 
   function addChatMessage (data, options) {
     // Don't fade the message in if there is an 'X was typing'
- 
     //chatMsg.from = data.username;
     $scope.chatMessagesArray.push(data);
     if(!$scope.$$phase) {
@@ -210,29 +180,15 @@ function loginUserToSocket () {
       //$scope.chatMessagesArray = $scope.chatMessagesArray;
      });
      }
-    
+   
     //console.log('data coming from server');
     //console.log(data);
   }
- 
-// <input ng-keydown=fn($event)><br>
-//   $event.keyCode={{keyCode}}
- 
-// $scope.fn = function (event) {
-//     console.log(event);
-//     $scope.keyCode = event.keyCode;
-// }
- 
- 
- 
 //this would be the main function which will execute on some keyboard event
 $scope.fn = function (event) {
-    //console.log(event);
-    //console.log(event.keyCode);
+   
     $scope.keyCode = event.keyCode;
-    // debugger;
     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-     // $currentInput.focus();
      document.getElementById("inputMessage").focus();
     }
     // When the client hits ENTER on their keyboard
@@ -241,10 +197,9 @@ $scope.fn = function (event) {
         sendMessage();
         socket.emit('stop typing');
         typing = false;
-      } 
+      }
     }
 }
- 
  
  
 // Whenever the server emits 'login', log the login message
@@ -258,71 +213,38 @@ $scope.fn = function (event) {
     addParticipantsMessage(data);
   });
  
- 
-// $window.keydown(function (event) {
-//     // Auto-focus the current input when a key is typed
-//     if (!(event.ctrlKey || event.metaKey || event.altKey)) {
-//       $currentInput.focus();
-//     }
-//     // When the client hits ENTER on their keyboard
-//     if (event.which === 13) {
-//       if (username) {
-//         sendMessage();
-//         socket.emit('stop typing');
-//         typing = false;
-//       } else {
-//         setUsername();
-//       }
-//     }
-//   });
- 
- 
-  
 });
  
  
  
- 
-app.controller('ModalInstanceCtrl', function ($uibModalInstance, items ,$scope ,$http,Data) {
+app.controller('ModalInstanceCtrl', function ($uibModalInstance, items ,friends,user_id,$scope ,$http) {
   var $ctrl = this;
   $ctrl.items = items;
   $ctrl.selected = {
     item: $ctrl.items[0]
   };
+  $ctrl.friends = friends;
+
  
-
-  // $http({
-  //   url: user.update_path, 
-  //   method: "POST",
-  //   data: {user_id: user.id, draft: true}
-  //  });
   $ctrl.ok = function () {
-
-    $scope.$watch(function () { 
-
-      console.log(Data.getFriendDetails);
-      return Data.getFriendDetails(); 
-    }, function (newValue, oldValue) {
-        if (newValue !== oldValue) $scope.$scope.FriendDetails = newValue;
-    });
-    console.log($scope.FriendDetails);
-
-  $scope.$on('SOME_TAG', function(response) {
-      $scope.aagya =response;
-      console.log(response);
-  })
+ 
+   $scope.data.user_id= user_id;
    
-
-$scope.$on('parent', function (event, data) {
-    console.log(data); // 'Some data'
-  });
-
-    console.log($scope.firstname);
+   $scope.data.userArray.push(user_id);
+ 
+  $http({
+    url: "http://localhost:3000/createGroupApi",
+    method: "POST",
+    data: $scope.data
+   }).then(function mySucces(response) {
+          $scope.friendDetails = response.data;
+      }, function myError(response) {
+          $scope.myWelcome = response.statusText;
+      });
+ 
     $uibModalInstance.close($ctrl.selected.item);
   };
- 
   $ctrl.cancel = function () {
     $uibModalInstance.dismiss('cancel');
   };
 });
- 

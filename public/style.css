@@ -29,7 +29,7 @@ li {
       border-radius: 15px;
       height: 10px;
       width: 1200px;
-      color: yellow;
+      color: red;
       background-color: lightblue;
       text-align:center;
       display: inline-block;
@@ -37,15 +37,14 @@ li {
     .wrapper{
       overflow-y:scroll;
       position:relative;
-      height: 160px;
+      height: 234px;
       background-color: lightgrey;
     }
     .wrappergroup{
       overflow-y:scroll;
      position:relative;
-     height: 80px;
+     height: 120px;
    }
- 
  
  /*  .inputMessages {
      border: 10px solid #000;
@@ -60,21 +59,17 @@ li {
    img {
     max-width: 100%;
     max-height: 50%;
-    height:180px;
+   
 }
- 
 /* Fix user-agent */
- 
  
 * {
   box-sizing: border-box;
 }
- 
 html {
   font-weight: 300;
   -webkit-font-smoothing: antialiased;
 }
- 
 html, input {
   font-family:
     "HelveticaNeue-Light",
@@ -85,44 +80,35 @@ html, input {
     "Lucida Grande",
     sans-serif;
 }
- 
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
- 
 ul {
   list-style: none;
   word-wrap: break-word;
 }
- 
 /* Pages */
- 
 .pages {
   height: 100%;
   margin: 0;
   padding: 0;
   width: 100%;
 }
- 
 .page {
   height: 100%;
   position: absolute;
   width: 100%;
 }
- 
 /* Login Page */
- 
 /*.login.page {
   background-color: #000;
 }
- 
 .login.page .form {
   height: 500px;
   margin-top: -100px;
   position: absolute;
- 
   text-align: center;
   top: 50%;
   width: 100%;
@@ -137,78 +123,140 @@ ul {
   text-align: center;
   width: 400px;
 }*/
- 
 /*.login.page .title {
   font-size: 200%;
 }
- 
 .login.page .usernameInputs {
   font-size: 200%;
   letter-spacing: 3px;
 }
- 
 .login.page .title, .login.page .usernameInputs {
   color: #fff;
   font-weight: 100;
 }*/
- 
 /* Chat page */
- 
 /*.chat.page {
   display: none;
 }*/
- 
 /* Font */
- 
 .messages {
   font-size: 150%;
 }
- 
 .inputMessage {
   font-size: 100%;
 }
- 
 .log {
   color: gray;
   font-size: 70%;
   margin: 5px;
   text-align: center;
 }
- 
 /* Messages */
- 
 .chatArea {
   height: 520px;
   padding-bottom: 60px;
 }
- 
 .messages {
   height: 100%;
   margin: 0;
   overflow-y: scroll;
   padding: 10px 20px 10px 20px;
 }
- 
 .message.typing .messageBody {
   color: gray;
 }
- 
 .username {
   font-weight: 700;
   overflow: hidden;
   padding-right: 15px;
   text-align: right;
 }
- 
 /* Input */
- 
 #inputMessage {
-   border: 5px solid #000;
+   border: 3px solid #000;
      bottom: 0;
-     height: 40px;
+     height: 28px;
      outline: none;
      position: relative;
      padding-left: 10px;
      right: 0;
      width: 100%;
 }
+ 
+ 
+#button {
+width: 19em;
+border-right: 1px solid #000;
+padding: 0 0 1em 0;
+margin-bottom: 1em;
+font-family: 'Trebuchet MS', 'Lucida Grande',
+   Verdana, Lucida, Geneva, Helvetica,
+   Arial, sans-serif;
+/*background-color: #90bade;*/
+color: #333;
+float:left;
+}
+ 
+#button ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  }
+ 
+ #button li {
+  border-bottom: 1px solid #90bade;
+  margin: 0;
+  }
+ 
+  #button li a {
+  display: block;
+  padding: 3px 3px 3px 0.5em;
+ /* border-left: 3px solid #1958b7;
+  border-right: 3px solid #508fc4;*/
+  background-color: #90EE90;
+  color:  #FF0000;
+  text-decoration: none;
+  width: 100%;
+  } html>body #button li a {
+  width: auto;
+  } #button li a:hover {
+  border-left: 10px solid #1c64d1;
+  border-right: 10px solid #5ba3e0;
+  background-color: #2586d7;
+  color: #fff;
+  }
+ 
+ 
+  sup {
+    background-color: #90EE90;
+    color:  #FF0000;
+  }
+ 
+ 
+ 
+  .circle-text {
+  width: 8%;
+  padding 10px;
+}
+.circle-text:after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0;
+  padding-bottom: 100%;
+  background: #4679BD;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+}
+.circle-text div {
+  float: left;
+  width: 100%;
+  padding-top: 50%;
+  line-height: 1em;
+  margin-top: -0.5em;
+  text-align: center;
+  color: white;
+}
+ 

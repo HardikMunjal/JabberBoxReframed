@@ -15,6 +15,10 @@ var chatStorageModel = require('./model/chatStorage');
 // app.use(bodyParser.urlencoded({
 //     extended: true
 // }));
+//add body parser thing before router to parse data in req body.
+app.use(bodyParser.json({
+  limit: '10mb'
+}));
 
 /**bodyParser.json(options)
  * Parses the text as JSON and exposes the resulting object on req.body.

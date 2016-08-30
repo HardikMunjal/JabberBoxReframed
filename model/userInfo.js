@@ -56,6 +56,13 @@ getAllFriendsDetails: function(options, cb) {
   createGroup: function(options, cb)
    {
 
+    var arr = [ {
+      sql: 'INSERT INTO `myfantasy`.`GroupBasicDetails`(`grp_name`,`grp_creator`,`grp_type`,`grp_admin`) VALUES (?,?,?,?)',
+      values: [options.grp_name, options.user_id, options.grp_type, options.user_id]
+    }
+    ];
+
+    
     var userArray= options.userArray;
 
     for(i=0;i<userArray.length;i++){
@@ -65,15 +72,12 @@ getAllFriendsDetails: function(options, cb) {
     arrObject.values=['grp_id',userArray[i]];
     arrObject.replacer='grp_id';
     
+    console.log(arrObject);
     arr.push(arrObject);
     arrObject={};
     }
 
-    var arr = [ {
-      sql: 'INSERT INTO `myfantasy`.`GroupBasicDetails`(`grp_name`,`grp_creator`,`grp_type`,`grp_admin`) VALUES (?,?,?,?)',
-      values: [options.grp_name, options.user_id, options.grp_type, options.user_id]
-    }
-    ];
+    
     mysql.transDynamicCallbackWay(arr, function(err, result) {
       cb(err, result);
     });
