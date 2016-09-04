@@ -48,6 +48,8 @@ app.get('/allFriendsDetailsApi', userInfo.getAllFriendsDetails);
 
 app.get('/fetchPersonalChatsApi', chatInfo.fetchPersonalChat);
 
+app.get('/fetchGroupChatApi', chatInfo.fetchGroupChat);
+
 app.post('/createGroupApi', userInfo.createGroup);
 
 

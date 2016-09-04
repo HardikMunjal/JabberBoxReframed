@@ -80,11 +80,16 @@ app.set('view engine', 'html');
 var numUsers = 0;
 var users={};
 
+var loginUserArray=[];
+
 io.on('connection', function (socket) {
   var addedUser = false;
 
   // when the client emits 'new message', this listens and executes
   socket.on('new message', function (data) {
+
+
+    if(data.to_user){
     //var clients = io.sockets.clients();
     //console.log('haha',clients.server.nsps);
     //console.log(socket.username);
@@ -98,16 +103,50 @@ io.on('connection', function (socket) {
     }
     console.log('success');
     console.log('socket',socket.username);
-  });
+   });
  
     users[data.friend_name].emit('new message', {
       username: socket.username,
-      message: data.message
+      message: data.message,
+      type:'user'
     });
     // socket.broadcast.emit('new message', {
     //   username: socket.username,
     //   message: data.message
     // });
+
+   }
+   else{
+
+    chatStorageModel.saveGroupChat(data, function(err, result) {
+
+    if (err) {
+      return next(err);
+    }
+    console.log('success');
+    console.log('socket',socket.username);
+   });
+ 
+
+    io.sockets.in(data.room).emit('new message', {
+      username: socket.username,
+      message: data.message,
+      room:data.room,
+      type:'group'
+    });
+
+    // socket.broadcast.emit('new message', {
+    //   username: socket.username,
+    //   message: data.message,
+    //   room:data.room
+    // });
+
+
+   }
+  });
+
+  socket.on('room', function(room) {
+        socket.join(room);
   });
 
   // when the client emits 'add user', this listens and executes
@@ -117,17 +156,22 @@ io.on('connection', function (socket) {
     // we store the username in the socket session for this client
     socket.username = username;
 
+    loginUserArray.push(username);
+
     users[socket.username]=socket;
-    ++numUsers;
+
+    var numUsers = loginUserArray.length;
     addedUser = true;
-    socket.emit('login', {
-      numUsers: numUsers
+    socket.emit('login onlineuserlist', {
+      onlineUsers: loginUserArray
     });
     // echo globally (all clients) that a person has connected
     socket.broadcast.emit('user joined', {
-      username: socket.username,
+      username: username,
       numUsers: numUsers
     });
+
+
   });
 
   // when the client emits 'typing', we broadcast it to others
@@ -146,14 +190,17 @@ io.on('connection', function (socket) {
 
   // when the user disconnects.. perform this
   socket.on('disconnect', function () {
-    if (addedUser) {
-      --numUsers;
-
+      
+      console.log('user disc',socket.username);
+      var index = loginUserArray.indexOf(socket.username);
+      var numUsers = loginUserArray.length;
+      if (index > -1) {
+        loginUserArray.splice(index, 1);
+      }
       // echo globally that this client has left
       socket.broadcast.emit('user left', {
         username: socket.username,
-        numUsers: numUsers
+        numUsers: numUsers 
       });
-    }
   });
 });

@@ -166,3 +166,17 @@ user_id_from   user_id_to   msg
  
 
 
+
+
+ws://10.2.5.160/app/09754a58-cee3-4b84-a579-493eb0eae4d6?reloadUri=http://10.2.5.160/dev-hub/engine-api-explorer
+
+
+var application_id = "09754a58-cee3-4b84-a579-493eb0eae4d6";
+var qlikSocketUrl = "ws://10.2.5.160/ps/app/"+application_id+"?reloadUri=http://10.2.5.160/ps/dev-hub/engine-api-explorer";
+
+
+
+
+{"method": "OpenDoc","handle": -1,"params": ["4a3e4a4d-69cf-488c-904e-d05df41d440c"],"id":1}
+
+{"method":"GetObject","handle":1,"params":["dCZSBr"],"id":4,"jsonrpc":"2.0"} 

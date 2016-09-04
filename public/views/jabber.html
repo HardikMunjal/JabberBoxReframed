@@ -20,25 +20,19 @@
     <li class="chat page">
    
  
-      <div class='container'>
-  <div>
+    <div class='container'>
+      
     <div class='navbar navbar-inverse navbar-custom' style="height:auto;">
-     <h4 class="bg-success">Jabber Box</h4>
+     <center><img src="/images/jabber.gif" class="img-rounded" alt="Cinque Terre" width="144" hieght="15"></center>
+
+
     </div>
-          
- 
-  </div>
+        
    <div id='content' class='row-fluid'>
     <div class='span2 sidebar'>
       <div class='hero'>
         <center><h5> {{myDetails.username|uppercase}}</h5></center>
-       <center> <img src="/images/bean.jpg" class="img-rounded" alt="Cinque Terre" width="104" hieght="70"></center>
-        <ul class="nav nav-pills nav-stacked red">
-          <b><li><a href="#">{{myDetails.email}}</a></li></b>
-        </ul>
- 
- 
-       
+       <center> <img src="/images/hardi.jpg" class="img-rounded" alt="Cinque Terre" width="144" hieght="70"></center>
          <header>Group Channel
            <button type="button" class="icon-book" ng-click="open()"></button>
          </header>
@@ -47,7 +41,7 @@
          <div id="button">
          <ul>
           <li ng-repeat="x in myDetails.groups">
-           <b><a ng-click="ShowGraph()">#{{ x.grp_name }}</a></b>
+           <b><a ng-click="fetchGroupChat(x.grp_id,x.grp_name)">#{{ x.grp_name }}</a></b>
           </li>
          </ul>
          </div>
@@ -57,15 +51,13 @@
           <div class='wrapper'>
           <div id="button">
           <ul>
-            <li ng-repeat="x in friendDetails">
-              <b><a ng-click="fetchPersonalChat(x.user_id,x.username)"># {{ x.username | uppercase}}
-              <img src="/images/online.gif" alt="Smiley face" height="22" width="34">
-              <!-- <div class="circle-text">
-                <div>3</div>
-              </div> -->
-              </a>
-             </b>
-            
+            <li ng-repeat="x in friendDetails" ng-click="fetchPersonalChat(x.user_id,x.username)">
+             <div style="float:left;"># {{ x.username | uppercase}}</div>
+             <div ng-if="notification" class="circle-text" style="float:left;">
+                <div style="float:left;">{{notification}}</div>
+             </div>
+             <div ng-if="x.online"><img style="margin-left: 10px;" src="/images/online.gif" alt="Smiley face" height="22" width="34"></div>
+             <div ng-if="!x.online"><img style="margin-left: 10px;" src="/images/offline.gif" alt="Smiley face" height="26" width="34"></div>
             </li>
           </ul>
           </div>
@@ -73,13 +65,12 @@
       </div>
      </div>
    <div class='span9 sidebar'>
-    <div class="chatArea">
+    <div class="hit-the-floor">{{chatHeaderMessage}}</div>
+    <div id="chatArea">
+    <br>
       <ul class="messages">
-      <div align="center">
-      <sup>{{chatHeaderMessage}}</sup>
-      </div>
-        <li ng-repeat=" opt in chatMessagesArray" ng-bind-html-unsafe="opt.text" >
-            {{ opt.username }} : {{opt.message}}
+        <li ng-repeat=" opt in chatMessagesArray | filter:filterById" ng-bind-html-unsafe="opt.text" ng-class="{mymessage: opt.username == 'Hardi', myfriendmessage: opt.username!='Hardi'}">
+            <div ng-class="{mymessageHeader: opt.username == my_username, myfriendmessageHeader: opt.username!=my_username}" style="float:left;"><b>{{ opt.username }}</b>:&emsp;</div> {{opt.message}}
         </li>
       </ul>
     </div>

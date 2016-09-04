@@ -63,6 +63,33 @@ var chatInfo = {
     res.json(result);
 
   });
+  },
+
+  fetchGroupChat : function(req, res, next){
+
+
+    if (!req.query.group_id){
+      var err = new Error('no group_id sent');
+      err.status=400;
+      return next(err);
+    }
+    
+    var group_id = req.query.group_id;
+    
+    var data ={
+      group_id : group_id
+    }
+
+    
+    chatStorageModel.fetchGroupChat(data, function(err, result) {
+
+    if (err) {
+      return next(err);
+    }
+    
+    res.json(result);
+
+  });
   }
 
 }
