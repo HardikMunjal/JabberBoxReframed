@@ -66,6 +66,7 @@
      </div>
    <div class='span9 sidebar'>
     <div class="hit-the-floor">{{chatHeaderMessage}}</div>
+    {{typingMessageText}}
     <div id="chatArea">
     <br>
       <ul class="messages">
@@ -74,7 +75,7 @@
         </li>
       </ul>
     </div>
-    <input id="inputMessage" placeholder="Type here..." ng-model="inputMsg" ng-keydown="fn($event)"/>
+    <input id="inputMessage" placeholder="Type here..." ng-model="inputMsg" ng-change="updateTyping()" ng-keydown="fn($event)"/>
    </div>
   </div>
 </div>

@@ -2,7 +2,7 @@ var app = angular.module('myJabberProfileApp',   ['ngAnimate', 'ngSanitize', 'ui
  
 app.controller('jabberProfileCtrl', function($scope, $http, $sce ,$timeout ,$uibModal, $log ,$rootScope) {
 var FADE_TIME = 150; // ms
-var TYPING_TIMER_LENGTH = 400; // ms
+var TYPING_TIMER_LENGTH = 900; // ms
 var COLORS = [
     '#e21400', '#91580f', '#f8a700', '#f78b00',
     '#58dc00', '#287b00', '#a8f07a', '#4ae8c4',
@@ -31,6 +31,8 @@ var username;
 var connected = true;
 var typing = false;
 var lastTypingTime;
+$scope.typingMessageArray=[];
+$scope.typingMessageText='';
 $scope.chatMessagesArray =[];
 $scope.chatMsg = {};
 $scope.chatHeaderMessage="Welcome to jabber box,Now enjoy chat with jabber";
@@ -348,11 +350,11 @@ function loginUserToSocket () {
 
 
       if($scope.friend_id){
-        console.log('me name',message.username);
+        //console.log('me name',message.username);
         return (  ((message.username == $scope.friend_name) && message.type == 'user') || ((message.username == $scope.my_username) && message.type == 'user') );
       }
       else{
-         console.log('group name',message.username);
+         //console.log('group name',message.username);
         return ((message.room == $scope.group_name) && message.type == 'group');
       }
     };
@@ -384,6 +386,89 @@ $scope.fn = function (event) {
       prepend: true
     });
     addParticipantsMessage(data);
+  });
+
+
+  // Updates the typing event
+  $scope.updateTyping= function() {
+    console.log('someone is typing');
+    if (connected) {
+      if (!typing) {
+        typing = true;
+        $scope.recieptent={};
+        if($scope.friend_name){
+          $scope.recieptent.friend_name= $scope.friend_name;
+        }
+        else{
+          $scope.recieptent.roomname= $scope.group_name;
+        }
+        socket.emit('typing',$scope.recieptent);
+      }
+      lastTypingTime = (new Date()).getTime();
+
+      setTimeout(function () {
+        var typingTimer = (new Date()).getTime();
+        var timeDiff = typingTimer - lastTypingTime;
+        if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
+          socket.emit('stop typing',$scope.recieptent);
+          typing = false;
+        }
+      }, TYPING_TIMER_LENGTH);
+    }
+  }
+
+
+  // Whenever the server emits 'typing', show the typing message
+  socket.on('typing', function (data) {
+  
+
+    if($scope.friend_name && ($scope.friend_name==data.username)){
+
+      $scope.typingMessageText = data.username + " is typing";
+      console.log($scope.typingMessageText);
+
+
+
+      
+
+    }else if($scope.group_name && ($scope.group_name==data.name)){
+
+      $scope.typingMessageText = data.username + " is typing";
+      console.log($scope.typingMessageText);
+
+    }
+
+    if(!$scope.$$phase) {
+     //$digest or $apply
+
+     $scope.$apply(function() {
+      //$scope.chatMessagesArray = $scope.chatMessagesArray;
+
+     });
+
+
+
+     }
+
+
+  });
+
+  // Whenever the server emits 'stop typing', kill the typing message
+  socket.on('stop typing', function (data) {
+    $scope.typingMessageText = "";
+    console.log('msg text null');
+    if(!$scope.$$phase) {
+     //$digest or $apply
+
+     $scope.$apply(function() {
+      //$scope.chatMessagesArray = $scope.chatMessagesArray;
+
+     });
+
+
+
+     }
+
   });
  
 });

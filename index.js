@@ -175,17 +175,45 @@ io.on('connection', function (socket) {
   });
 
   // when the client emits 'typing', we broadcast it to others
-  socket.on('typing', function () {
-    socket.broadcast.emit('typing', {
-      username: socket.username
-    });
+  socket.on('typing', function (recieptent) {
+
+    if(recieptent.roomname){
+
+      io.sockets.in(recieptent.roomname).emit('typing', {
+        username: socket.username,
+        name: recieptent.roomname,
+        type:'group'
+      });
+
+    }
+    else{
+      console.log(recieptent);
+      users[recieptent.friend_name].emit('typing', {
+        username: socket.username,
+        name: recieptent.friend_name,
+        type: 'user'
+     });
+    }
+    // socket.broadcast.emit('typing', {
+    //   username: socket.username
+    // });
   });
 
   // when the client emits 'stop typing', we broadcast it to others
-  socket.on('stop typing', function () {
-    socket.broadcast.emit('stop typing', {
-      username: socket.username
-    });
+  socket.on('stop typing', function (recieptent) {
+    console.log(recieptent);
+    if(recieptent.roomname){
+
+      io.sockets.in(recieptent.roomname).emit('stop typing', {
+        username: socket.username
+      });
+
+    }
+    else{
+      users[recieptent.friend_name].emit('stop typing', {
+        username: socket.username
+     });
+    }
   });
 
   // when the user disconnects.. perform this
