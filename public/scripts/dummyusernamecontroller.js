@@ -8,7 +8,7 @@ angular.module('dummyApp', [])
       if ($scope.username) {
         localStorage.setItem('username', $scope.username);
       }
-     window.location = "http://localhost:3000/"; 
+     window.location = "http://192.168.1.4:3000/"; 
     }
 }  
 

@@ -90,11 +90,6 @@ io.on('connection', function (socket) {
 
 
     if(data.to_user){
-    //var clients = io.sockets.clients();
-    //console.log('haha',clients.server.nsps);
-    //console.log(socket.username);
-    // we tell the client to execute 'new message'
-    //console.log(data);
     
     chatStorageModel.savePersonalChatUser(data, function(err, result) {
 

@@ -49,12 +49,12 @@
     
           <header>Personal Messaging</header>
           <div class='wrapper'>
-          <div id="button">
+          <div id="personalmessagebutton">
           <ul>
             <li ng-repeat="x in friendDetails" ng-click="fetchPersonalChat(x.user_id,x.username)">
-             <div style="float:left;"># {{ x.username | uppercase}}</div>
-             <div ng-if="notification" class="circle-text" style="float:left;">
-                <div style="float:left;">{{notification}}</div>
+            <div style="float:left;"><a># {{x.username | uppercase}}</a></div>
+             <div ng-if="x.count" class="circle-text" style="float:left;">
+                <div style="float:left;">{{x.count}}</div>
              </div>
              <div ng-if="x.online"><img style="margin-left: 10px;" src="/images/online.gif" alt="Smiley face" height="22" width="34"></div>
              <div ng-if="!x.online"><img style="margin-left: 10px;" src="/images/offline.gif" alt="Smiley face" height="26" width="34"></div>
@@ -66,16 +66,17 @@
      </div>
    <div class='span9 sidebar'>
     <div class="hit-the-floor">{{chatHeaderMessage}}</div>
-    {{typingMessageText}}
+    
     <div id="chatArea">
     <br>
       <ul class="messages">
         <li ng-repeat=" opt in chatMessagesArray | filter:filterById" ng-bind-html-unsafe="opt.text" ng-class="{mymessage: opt.username == 'Hardi', myfriendmessage: opt.username!='Hardi'}">
             <div ng-class="{mymessageHeader: opt.username == my_username, myfriendmessageHeader: opt.username!=my_username}" style="float:left;"><b>{{ opt.username }}</b>:&emsp;</div> {{opt.message}}
         </li>
+        <li><sub style="color:lightblue;">{{typingMessageText}}<sub></li>
       </ul>
     </div>
-    <input id="inputMessage" placeholder="Type here..." ng-model="inputMsg" ng-change="updateTyping()" ng-keydown="fn($event)"/>
+    <input id="inputMessage" placeholder="Type here..." ng-model="inputMsg" ng-change="updateTyping($event)" ng-keydown="fn($event)"/>
    </div>
   </div>
 </div>

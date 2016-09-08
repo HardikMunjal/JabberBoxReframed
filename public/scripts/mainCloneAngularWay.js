@@ -59,6 +59,11 @@ $http({
         params: {username: username}
     }).then(function mySucces(response) {
         $scope.friendDetails = response.data;
+
+        for(i=0;i<$scope.friendDetails.length;i++){
+          $scope.friendDetails[i].count = 0;
+        }
+
     }, function myError(response) {
         $scope.myWelcome = response.statusText;
     });
@@ -104,6 +109,12 @@ $scope.fetchPersonalChat = function(friend_id,friend_name){
   $scope.group_id=null;
   $scope.chatMessagesArray =[];
   $scope.chatHeaderMessage="Displaying chat between you and "+$scope.friend_name;
+
+   for(i=0;i<$scope.friendDetails.length;i++){
+      if($scope.friend_name ==$scope.friendDetails[i].username){
+        $scope.friendDetails[i].count=0;
+      }
+    }
  
   $http({
         method : "GET",
@@ -237,6 +248,16 @@ function loginUserToSocket () {
   // Whenever the server emits 'new message', update the chat body
   socket.on('new message', function (data) {
     console.log('data coming from server',data);
+
+    for(i=0;i<$scope.friendDetails.length;i++){
+      if($scope.friendDetails[i].username==data.username && (data.username != $scope.friend_name)){
+        $scope.friendDetails[i].count= $scope.friendDetails[i].count+1;
+      }
+      if($scope.friend_name && ($scope.friend_name==$scope.friendDetails[i].username)){
+        $scope.friendDetails[i].count=0;
+      }
+    }
+    console.log($scope.friendDetails);
     addChatMessage(data);
   });
 
@@ -370,8 +391,8 @@ $scope.fn = function (event) {
     if (event.keyCode === 13) {
       if (username) {
         sendMessage();
-        socket.emit('stop typing');
-        typing = false;
+        //socket.emit('stop typing');
+        //typing = false;
       }
     }
 }
@@ -392,6 +413,8 @@ $scope.fn = function (event) {
   // Updates the typing event
   $scope.updateTyping= function() {
     console.log('someone is typing');
+
+
     if (connected) {
       if (!typing) {
         typing = true;
@@ -405,7 +428,7 @@ $scope.fn = function (event) {
         socket.emit('typing',$scope.recieptent);
       }
       lastTypingTime = (new Date()).getTime();
-
+      console.log('recieptent',$scope.recieptent);
       setTimeout(function () {
         var typingTimer = (new Date()).getTime();
         var timeDiff = typingTimer - lastTypingTime;

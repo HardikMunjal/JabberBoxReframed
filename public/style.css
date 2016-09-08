@@ -45,6 +45,8 @@
      position:relative;
      height: 20%;
    }
+
+
  
  /*  .inputMessages {
      border: 10px solid #000;
@@ -213,23 +215,68 @@ float:left;
   }
  
   #button li a {
-  display: block;
-  padding: 3px 3px 3px 0.5em;
+  display: inline;
+  padding: 2px 2px 1px 0.5em;
  /* border-left: 3px solid #1958b7;
   border-right: 3px solid #508fc4;*/
-  background-color: #90EE90;
+  background-color: lightgreen;
   color:  #FF0000;
   text-decoration: none;
   width: 100%;
   } html>body #button li a {
   width: auto;
   } #button li a:hover {
-  border-left: 10px solid #1c64d1;
-  border-right: 10px solid #5ba3e0;
-  background-color: #2586d7;
-  color: #fff;
+   /*border-left: 10px solid #1c64d1;
+    border-right: 10px solid #5ba3e0;*/
+    background-color: #fff;
+  color: #000;
   }
- 
+
+
+
+
+  #personalmessagebutton {
+  width: 100%;
+  border-right: 1px solid #000;
+  padding: 0 0 1em 0;
+  margin-bottom: 1em;
+  font-family: 'Trebuchet MS', 'Lucida Grande',
+     Verdana, Lucida, Geneva, Helvetica,
+     Arial, sans-serif;
+  /*background-color: #90bade;*/
+  color: #333;
+  float:left;
+  }
+   
+  #personalmessagebutton ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    }
+   
+   #personalmessagebutton li {
+    border-bottom: 1px solid #90bade;
+    margin: 0;
+    }
+   
+    #personalmessagebutton li a {
+    display: inline;
+    padding: 2px 2px 1px 0.5em;
+   /* border-left: 3px solid #1958b7;
+    border-right: 3px solid #508fc4;*/
+    background-color: #D3D3D3;
+    color:  #000000;
+    text-decoration: none;
+    width: 100%;
+    } html>body #button li a {
+    width: auto;
+    } #personalmessagebutton li a:hover {
+    /*border-left: 10px solid #1c64d1;
+    border-right: 10px solid #5ba3e0;*/
+    background-color: #BDB76B;
+    color: #000;
+    }
 
   .hit-the-floor {
     color: #2E8B57;
