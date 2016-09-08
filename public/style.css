@@ -46,7 +46,11 @@
      height: 20%;
    }
 
-
+    input{
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    }
  
  /*  .inputMessages {
      border: 10px solid #000;

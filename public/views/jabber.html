@@ -5,7 +5,7 @@
   <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
   <title>Jabber Box</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href="http://netdna.bootstrapcdn.com/bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.11/angular.min.js"></script>
   <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.10/angular-ui-router.min.js"></script>
   <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-animate.js"></script>
@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body ng-controller="jabberProfileCtrl">
+
   <ul class="pages">
     <li class="chat page">
    
@@ -29,7 +30,17 @@
     </div>
         
    <div id='content' class='row-fluid'>
-    <div class='span2 sidebar'>
+    <div class="col-md-3">
+    <nav class="navbar navbar-default" role="navigation">
+            
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+             <div class="collapse navbar-collapse">
       <div class='hero'>
         <center><h5> {{myDetails.username|uppercase}}</h5></center>
        <center> <img src="/images/hardi.jpg" class="img-rounded" alt="Cinque Terre" width="144" hieght="70"></center>
@@ -49,9 +60,11 @@
     
           <header>Personal Messaging</header>
           <div class='wrapper'>
+          <input type="text" name="search" placeholder="Search.." ng-model="search">
           <div id="personalmessagebutton">
+          
           <ul>
-            <li ng-repeat="x in friendDetails" ng-click="fetchPersonalChat(x.user_id,x.username)">
+            <li ng-repeat="x in friendDetails | filter:search" ng-click="fetchPersonalChat(x.user_id,x.username)">
             <div style="float:left;"><a># {{x.username | uppercase}}</a></div>
              <div ng-if="x.count" class="circle-text" style="float:left;">
                 <div style="float:left;">{{x.count}}</div>
@@ -63,8 +76,10 @@
           </div>
         </div>
       </div>
+      </div>
+       </nav>
      </div>
-   <div class='span9 sidebar'>
+   <div class="col-md-9">
     <div class="hit-the-floor">{{chatHeaderMessage}}</div>
     
     <div id="chatArea">
