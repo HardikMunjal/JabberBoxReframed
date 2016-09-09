@@ -7,7 +7,7 @@
       border-radius: 25px;
       border: 2px solid #000;
       background: lightblue;
-      height: 26px;
+      height: 16px;
       text-align:center;
     }
     .nav-pills > li.active > a, .nav-pills > li.active > a:focus {
@@ -27,7 +27,7 @@
     }
     .navbar-custom {
       border-radius: 15px;
-      height: 10px;
+      height: 5px;
       width: 100%;
       color: grey;
       background-color: lightgreen;
@@ -62,11 +62,11 @@
      right: 0;
      width: 100%;
    }*/
-   img {
+   /*img {
     max-width: 100%;
     max-height: 50%;
    
-}
+}*/
 /* Fix user-agent */
  
 * {
