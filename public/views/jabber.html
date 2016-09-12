@@ -16,25 +16,26 @@
   <link rel="stylesheet" href="/style.css">
 </head>
 <body ng-controller="jabberProfileCtrl">
-
+ 
   <ul class="pages">
     <li class="chat page">
-   
+  
  
     <div class='container'>
-      
-    <div class='navbar'>
-     <center><img src="/images/jabber.gif" class="img-rounded" alt="Cinque Terre" width="144" hieght="15"></center>
-
-
-    </div>
-        
+     
+    <nav class="navbar navbar-default" role="navigation">
+     <center><img src="/images/jabber.gif" class="img-rounded" alt="Cinque Terre" width="184" hieght="15"></center>
+ 
+ 
+    </nav>
+       
    <div id='content' class='row-fluid'>
     <div class="col-md-3">
-    <nav class="navbar navbar-default" role="navigation">
-            
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+    <nav class="navbar" role="navigation">
+           
+            <div class="navbar-header navbar-inverse">
+                <button type="button" id="navtoggle" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
@@ -44,10 +45,10 @@
         <center><h5> {{myDetails.username|uppercase}}</h5></center>
        <center> <img src="/images/hardi.jpg" class="img-rounded" alt="Cinque Terre" width="144" hieght="70"></center>
          <header>Group Channel
-           <button type="button" class="icon-book" ng-click="open()"></button>
+           <button type="button" class="glyphicon glyphicon-plus" ng-click="open()"></button>
          </header>
         <div class='wrappergroup'>
-      
+     
          <div id="button">
          <ul>
           <li ng-repeat="x in myDetails.groups">
@@ -56,13 +57,14 @@
          </ul>
          </div>
         </div>
-    
+   
           <header>Personal Messaging</header>
           <div class='wrapper'>
-          <input type="text" name="search" placeholder="Search.." ng-model="search">
+          <input class="inputstyle" type="text" name="search" placeholder="Search.." ng-model="search">
           <div id="personalmessagebutton">
-          
+         
           <ul>
+            <li>....................................................</li>
             <li ng-repeat="x in friendDetails | filter:search" ng-click="fetchPersonalChat(x.user_id,x.username)">
             <div style="float:left;"><a># {{x.username | uppercase}}</a></div>
              <div ng-if="x.count" class="circle-text" style="float:left;">
@@ -80,7 +82,7 @@
      </div>
    <div class="col-md-9">
     <div class="hit-the-floor">{{chatHeaderMessage}}</div>
-    
+   
     <div id="chatArea">
     <br>
       <ul class="messages">
@@ -90,11 +92,11 @@
         <li><sub style="color:lightblue;">{{typingMessageText}}<sub></li>
       </ul>
     </div>
-    <input id="inputMessage" placeholder="Type here..." ng-model="inputMsg" ng-change="updateTyping($event)" ng-keydown="fn($event)"/>
+    <input id="inputMessage"  placeholder="Type here..." ng-model="inputMsg" ng-change="updateTyping($event)" ng-keydown="fn($event)"/>
    </div>
   </div>
 </div>
-     
+    
   </li>
    <!--  <li class="login page">
       <div class="form">
@@ -103,7 +105,6 @@
       </div>
     </li>
 -->  </ul>
- 
 <div>
     <script type="text/ng-template" id="myModalContent.html">
         <div class="modal-header">
@@ -117,7 +118,6 @@
         <input type="radio" ng-model="data.grp_type" value="closed">Closed
         <input type="radio" ng-model="data.grp_type" value="open">Open
  
- 
         <div ng-switch="data.grp_type">
           <div ng-switch-when="open">
              <h1>Open Group</h1>
@@ -127,7 +127,7 @@
              <h1>Closed Group</h1>
              <p>In Closed Group,Only those Member can see messages which are added by you</p>
           </div>
-   
+  
  
         <div ng-switch-when="closed">
           <label for="ngvalueselect"> Select Members </label>
@@ -152,4 +152,3 @@
    <script src="/scripts/mainCloneAngularWay.js"></script>
 </body>
 </html>
- 

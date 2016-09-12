@@ -103,6 +103,8 @@ $scope.fetchPersonalChat = function(friend_id,friend_name){
   //console.log('friend_id',friend_id);
   document.getElementById("inputMessage").disabled = false;
   document.getElementById("inputMessage").focus();
+
+   document.getElementById("navtoggle").click();
   
   $scope.friend_id = friend_id;
   $scope.friend_name = friend_name;
